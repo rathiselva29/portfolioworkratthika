@@ -83,7 +83,7 @@ const Index = () => {
         <ParticlesBackground />
         <motion.div variants={stagger} initial="hidden" animate="show" className="relative z-10 container mx-auto px-6 text-center">
           <motion.p variants={fadeUp} className="font-mono-code text-primary text-sm mb-4 tracking-widest uppercase">Hi, I'm Ratthika</motion.p>
-          <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4"><span className="text-gradient">I'm Ratthika S</span></motion.h1>
+          <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4"><span className="text-gradient">Ratthika S</span></motion.h1>
           <motion.div variants={fadeUp} className="h-10 mb-6 overflow-hidden">
             <motion.p key={titleIdx} initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="text-xl md:text-2xl text-muted-foreground">{titles[titleIdx]}</motion.p>
           </motion.div>
@@ -152,7 +152,7 @@ const Index = () => {
               <div><h4 className="text-foreground font-semibold mb-1">Skills</h4><p>HTML, CSS, MySQL, Git, GitHub, Canva, UI Design</p></div>
               <div><h4 className="text-foreground font-semibold mb-1">Internships</h4><p>3 internships in web development and design</p></div>
             </div>
-            <motion.a href="mailto:ratthikaratthika55@gmail.com?subject=Resume%20Request&body=Hi%20Ratthika%2C%20I%20would%20like%20to%20request%20your%20resume." whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold glow-primary transition-shadow"><Download size={18} /> Request Resume</motion.a>
+            <motion.a href="/Ratthika_S_Resume.pdf" download whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold glow-primary transition-shadow"><Download size={18} /> Download Resume (PDF)</motion.a>
           </TiltCard>
         </div>
       </Section>
