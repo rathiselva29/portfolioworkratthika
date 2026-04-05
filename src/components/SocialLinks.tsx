@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Instagram, Youtube, Twitter } from "lucide-react";
 
 const socials = [
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-  { icon: Twitter, href: "#", label: "Twitter" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/ratthika-s29/", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/rathiselva29", label: "GitHub" },
+  { icon: Instagram, href: "https://www.instagram.com/rathii__selva", label: "Instagram" },
+  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
 ];
 
 const SocialLinks = () => (
