@@ -82,7 +82,6 @@ const Index = () => {
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <ParticlesBackground />
         <motion.div variants={stagger} initial="hidden" animate="show" className="relative z-10 container mx-auto px-6 text-center">
-          <motion.p variants={fadeUp} className="font-mono-code text-primary text-sm mb-4 tracking-widest uppercase">Hi, I'm Ratthika</motion.p>
           <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4"><span className="text-gradient">Ratthika S</span></motion.h1>
           <motion.div variants={fadeUp} className="h-10 mb-6 overflow-hidden">
             <motion.p key={titleIdx} initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="text-xl md:text-2xl text-muted-foreground">{titles[titleIdx]}</motion.p>
