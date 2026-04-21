@@ -4,6 +4,7 @@ import { ExternalLink, Github, Linkedin, Instagram, Mail, Phone, Download, Send,
 import ParticlesBackground from "../components/ParticlesBackground";
 import TiltCard from "../components/TiltCard";
 import SocialLinks from "../components/SocialLinks";
+import profilePhoto from "@/assets/ratthika-profile.jpg";
 
 const Section = ({ id, children, className = "" }: { id: string; children: React.ReactNode; className?: string }) => {
   const ref = useRef(null);
@@ -98,6 +99,12 @@ const Index = () => {
       <Section id="about" className="py-24">
         <div className="container mx-auto max-w-4xl">
           <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-8 text-gradient text-center">About Me</motion.h2>
+          <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="flex justify-center mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-secondary blur-xl opacity-60" />
+              <img src={profilePhoto} alt="Ratthika S" className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-primary/40 glow-primary" />
+            </div>
+          </motion.div>
           <motion.p initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-muted-foreground leading-relaxed mb-8 text-lg text-center max-w-3xl mx-auto">Ratthika is a dedicated Computer Science and Engineering student with strong interest in frontend development and creative design. Skilled in HTML, CSS, MySQL, Git, and GitHub. Experienced in Canva-based designing including logo creation, layout design, banner and poster design. Currently seeking internship opportunities to gain practical industry experience.</motion.p>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[{ num: "5+", label: "Projects" }, { num: "CSE", label: "Branch" }, { num: "3", label: "Internships" }, { num: "100%", label: "Dedication" }].map((stat) => (
