@@ -4,6 +4,7 @@ import { ExternalLink, Github, Linkedin, Instagram, Mail, Phone, Download, Send,
 import ParticlesBackground from "../components/ParticlesBackground";
 import TiltCard from "../components/TiltCard";
 import SocialLinks from "../components/SocialLinks";
+import Certifications from "../components/Certifications";
 import profilePhoto from "@/assets/ratthika-profile.jpg";
 
 const Section = ({ id, children, className = "" }: { id: string; children: React.ReactNode; className?: string }) => {
@@ -145,6 +146,8 @@ const Index = () => {
           </div>
         </div>
       </Section>
+
+      <Certifications />
 
       <Section id="resume" className="py-24">
         <div className="container mx-auto max-w-2xl text-center">
