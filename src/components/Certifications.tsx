@@ -1,12 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Award, Eye, X, Calendar } from "lucide-react";
+import { Award, Eye, X, Calendar, Trophy, Building2, Sparkles } from "lucide-react";
 import certTypewriting from "@/assets/cert-typewriting.jpg";
 import certDrone from "@/assets/cert-drone.jpg";
 import certSports1 from "@/assets/cert-sports1.jpg";
 import certSports2 from "@/assets/cert-sports2.jpg";
 import certMadhyama from "@/assets/cert-madhyama.jpg";
 import certPrathamic from "@/assets/cert-prathamic.jpg";
+import certExcel from "@/assets/cert-excel.jpg";
 
 // Sensitive regions (top, left, width, height) in % of the image — blurred for privacy
 type Redact = { top: string; left: string; width: string; height: string };
@@ -16,83 +17,94 @@ type Cert = {
   title: string;
   description: string;
   year: string;
+  platform: string;
+  importance: string;
+  highlight?: string; // shown as a badge (Winner / score%) when notable (winner or >60%)
   images: string[];
-  // redactions per image index
   redactions: Redact[][];
 };
 
 const certs: Cert[] = [
   {
+    id: "excel",
+    title: "Excel — Course Completion",
+    description:
+      "Completed the Excel course covering formulas, data analysis and spreadsheet productivity.",
+    year: "2025",
+    platform: "Infosys Springboard",
+    importance: "Strengthens analytical & data-handling skills relevant for any tech role.",
+    images: [certExcel],
+    redactions: [
+      [{ top: "55%", left: "8%", width: "16%", height: "26%" }], // QR code
+    ],
+  },
+  {
     id: "typewriting",
     title: "Junior Grade Typewriting English",
     description:
-      "Completed Junior Grade Typewriting English certification conducted by the Government of Tamil Nadu.",
+      "Completed Junior Grade Typewriting English certification at 30 words per minute.",
     year: "2022",
+    platform: "Government of Tamil Nadu — Department of Technical Education",
+    importance: "Demonstrates typing proficiency and discipline — useful for documentation roles.",
     images: [certTypewriting],
     redactions: [
       [
-        { top: "1%", left: "2%", width: "30%", height: "8%" }, // Register No
-        { top: "1%", left: "62%", width: "36%", height: "8%" }, // Serial No
-        { top: "30%", left: "38%", width: "26%", height: "18%" }, // Passport photo
-        { top: "50%", left: "30%", width: "40%", height: "5%" }, // DoB
-        { top: "82%", left: "2%", width: "16%", height: "16%" }, // QR
+        { top: "1%", left: "2%", width: "30%", height: "8%" },
+        { top: "1%", left: "62%", width: "36%", height: "8%" },
+        { top: "30%", left: "38%", width: "26%", height: "18%" },
+        { top: "50%", left: "30%", width: "40%", height: "5%" },
+        { top: "82%", left: "2%", width: "16%", height: "16%" },
       ],
     ],
   },
   {
     id: "drone",
-    title: "Skill Development & Entrepreneurship Training Program",
+    title: "Skill Development & Entrepreneurship — Drone Technology",
     description:
-      "Participated in Drone Technology skill development and entrepreneurship training program.",
+      "Participated in a 5-day (25 hours) skill development and entrepreneurship training program in Drone Technology.",
     year: "2023",
+    platform: "Jet Aerospace · Supported by IHFC, IIT Delhi (DST)",
+    importance: "Hands-on exposure to emerging UAV technology and entrepreneurial skills.",
     images: [certDrone],
-    redactions: [
-      [{ top: "70%", left: "5%", width: "14%", height: "22%" }], // QR code
-    ],
+    redactions: [[{ top: "70%", left: "5%", width: "14%", height: "22%" }]],
   },
   {
     id: "sports",
-    title: "Republic Day Sports Participation",
+    title: "Republic Day Sports — Hand Ball (Winner)",
     description:
-      "Participated in Republic Day Games and Sports conducted by the school education department.",
+      "Won Zone Level Republic Day Games & Sports in Hand Ball across two consecutive years.",
     year: "2018-2019",
+    platform: "School Education Department, Tamil Nadu",
+    importance: "Reflects teamwork, perseverance and consistent performance under pressure.",
+    highlight: "Winner",
     images: [certSports1, certSports2],
     redactions: [[], []],
   },
   {
-    id: "exams",
-    title: "Prathamic & Madhyama Examination Certification",
-    description: "Successfully completed Prathamic and Madhyama level examinations.",
+    id: "madhyama",
+    title: "Madhyama Examination — First Class",
+    description:
+      "Successfully passed the Madhyama level Hindi examination in First Class with 155/200 (77.5%).",
     year: "2019",
-    images: [certPrathamic, certMadhyama],
-    redactions: [
-      [{ top: "27%", left: "33%", width: "30%", height: "5%" }],
-      [{ top: "26%", left: "33%", width: "30%", height: "5%" }],
-    ],
+    platform: "Dakshina Bharat Hindi Prachar Sabha, Madras",
+    importance: "Strong command of Hindi enabling effective multi-lingual communication.",
+    highlight: "77.5% · First Class",
+    images: [certMadhyama],
+    redactions: [[{ top: "26%", left: "33%", width: "30%", height: "5%" }]],
+  },
+  {
+    id: "prathamic",
+    title: "Prathamic Examination — First Class",
+    description:
+      "Successfully passed the Prathamic level Hindi examination in First Class with 62% marks.",
+    year: "2016",
+    platform: "Dakshina Bharat Hindi Prachar Sabha, Madras",
+    importance: "Foundational Hindi proficiency complementing the Madhyama achievement.",
+    highlight: "62% · First Class",
+    images: [certPrathamic],
+    redactions: [[{ top: "27%", left: "33%", width: "30%", height: "5%" }]],
   },
 ];
-
-const CertImage = ({
-  src,
-  redactions,
-  className = "",
-}: {
-  src: string;
-  redactions: Redact[];
-  className?: string;
-}) => (
-  <div className={`relative w-full h-full ${className}`}>
-    <img src={src} alt="Certificate" className="w-full h-full object-cover" />
-    {redactions.map((r, i) => (
-      <div
-        key={i}
-        aria-hidden
-        className="absolute backdrop-blur-xl bg-background/30 rounded-sm"
-        style={{ top: r.top, left: r.left, width: r.width, height: r.height }}
-      />
-    ))}
-  </div>
-);
 
 const Certifications = () => {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -128,48 +140,72 @@ const Certifications = () => {
           viewport={{ once: true }}
           className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto"
         >
-          A showcase of certifications, training programs, and achievements earned along my journey.
+          Certifications, training programs and achievements earned along my journey. Press
+          “View Certificate” to preview any document.
         </motion.p>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certs.map((c, i) => (
-            <motion.button
-              key={c.id}
-              type="button"
-              onClick={() => setOpenId(c.id)}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              whileHover={{ y: -6 }}
-              className="group glass-card overflow-hidden text-left flex flex-col hover:glow-primary transition-shadow"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                  <CertImage src={c.images[0]} redactions={c.redactions[0]} />
+          {certs.map((c, i) => {
+            const isHighlighted = !!c.highlight;
+            return (
+              <motion.div
+                key={c.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+                whileHover={{ y: -6 }}
+                className={`relative glass-card p-6 flex flex-col ${
+                  isHighlighted
+                    ? "border-primary/50 bg-card/90 glow-primary"
+                    : "hover:glow-primary transition-shadow"
+                }`}
+              >
+                {isHighlighted && (
+                  <div className="absolute -top-3 right-4 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold shadow-lg">
+                    <Trophy size={12} /> {c.highlight}
+                  </div>
+                )}
+
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary shrink-0">
+                    <Award size={20} />
+                  </div>
+                  <h3 className="text-base md:text-lg font-bold text-foreground leading-snug">
+                    {c.title}
+                  </h3>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
-                <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full glass text-xs text-foreground">
-                  <Calendar size={12} className="text-primary" /> {c.year}
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="px-4 py-2 rounded-lg glass text-xs font-semibold text-foreground flex items-center gap-2">
-                    <Eye size={14} className="text-primary" /> Press to View Certificate
-                  </span>
-                </div>
-              </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="flex items-start gap-2 mb-2">
-                  <Award size={18} className="text-primary mt-0.5 shrink-0" />
-                  <h3 className="text-base font-bold text-foreground leading-snug">{c.title}</h3>
-                </div>
-                <p className="text-muted-foreground text-sm flex-1">{c.description}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm text-primary font-semibold group-hover:underline">
+
+                <p className="text-muted-foreground text-sm mb-4 flex-1">{c.description}</p>
+
+                <dl className="space-y-2 text-xs mb-5">
+                  <div className="flex items-start gap-2">
+                    <Calendar size={14} className="text-primary mt-0.5 shrink-0" />
+                    <span className="text-muted-foreground">Year:</span>
+                    <span className="text-foreground font-medium">{c.year}</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Building2 size={14} className="text-primary mt-0.5 shrink-0" />
+                    <span className="text-muted-foreground">Platform:</span>
+                    <span className="text-foreground font-medium">{c.platform}</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Sparkles size={14} className="text-primary mt-0.5 shrink-0" />
+                    <span className="text-muted-foreground">Importance:</span>
+                    <span className="text-foreground/90">{c.importance}</span>
+                  </div>
+                </dl>
+
+                <button
+                  type="button"
+                  onClick={() => setOpenId(c.id)}
+                  className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary/15 hover:bg-primary/25 border border-primary/30 text-primary text-sm font-semibold transition-colors"
+                >
                   <Eye size={14} /> View Certificate
-                </span>
-              </div>
-            </motion.button>
-          ))}
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -195,7 +231,9 @@ const Certifications = () => {
                 <div>
                   <h3 className="text-lg md:text-2xl font-bold text-gradient">{active.title}</h3>
                   <p className="text-muted-foreground text-sm mt-1">{active.description}</p>
-                  <p className="text-primary text-xs font-mono-code mt-1">Year: {active.year}</p>
+                  <p className="text-primary text-xs font-mono-code mt-1">
+                    {active.platform} · {active.year}
+                  </p>
                 </div>
                 <button
                   onClick={() => setOpenId(null)}
@@ -212,9 +250,13 @@ const Certifications = () => {
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="relative rounded-lg overflow-hidden border border-border"
+                    className="relative rounded-lg overflow-hidden border border-border bg-background"
                   >
-                    <img src={src} alt={`${active.title} ${idx + 1}`} className="w-full h-auto block" />
+                    <img
+                      src={src}
+                      alt={`${active.title} ${idx + 1}`}
+                      className="w-full h-auto block"
+                    />
                     {active.redactions[idx]?.map((r, i) => (
                       <div
                         key={i}
@@ -227,7 +269,8 @@ const Certifications = () => {
                 ))}
               </div>
               <p className="text-xs text-muted-foreground text-center mt-4">
-                Sensitive details (register/serial numbers, QR codes, DOB, photos) are intentionally blurred for privacy.
+                Sensitive details (register/serial numbers, QR codes, DOB, photos) are intentionally
+                blurred for privacy.
               </p>
             </motion.div>
           </motion.div>
