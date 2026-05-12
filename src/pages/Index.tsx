@@ -6,6 +6,10 @@ import TiltCard from "../components/TiltCard";
 import SocialLinks from "../components/SocialLinks";
 import Certifications from "../components/Certifications";
 import profilePhoto from "@/assets/ratthika-profile.jpg";
+import bannerVsArt from "@/assets/banner-vs-art.png";
+import appHabitTracker from "@/assets/app-habit-tracker.png";
+import logoArtika from "@/assets/logo-artika.png";
+import bannerPortfolio from "@/assets/banner-portfolio.png";
 
 const Section = ({ id, children, className = "" }: { id: string; children: React.ReactNode; className?: string }) => {
   const ref = useRef(null);
@@ -21,11 +25,24 @@ const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ b
 
 const titles = ["Frontend Developer", "Creative Designer", "UI Enthusiast", "Problem Solver"];
 
-const projects = [
-  { title: "Artika Creations Website", description: "A creative agency website showcasing design services and portfolio work.", link: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc", image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop" },
-  { title: "Habit Tracking App", description: "A web app to build and track daily habits with a clean interface.", link: "https://rathiselva29.github.io/Habit-Tracking/", image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop" },
-  { title: "Daily Tracking Website", description: "A handmade design for daily activity tracking and productivity.", link: "https://rathiselva29.github.io/DailyTracking/", image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop" },
-  { title: "VS Art Project", description: "An art showcase project highlighting creative visual designs.", link: "https://rathiselva29.github.io/ratthika_vs_art_project/", image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop" },
+type ProjectCategory = "website" | "application" | "design";
+type Project = { title: string; description: string; link?: string; image: string; category: ProjectCategory; tags?: string[] };
+
+const projects: Project[] = [
+  { title: "Artika Creations Website", description: "A creative agency website showcasing design services and portfolio work.", link: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc", image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop", category: "website", tags: ["HTML", "CSS", "JS"] },
+  { title: "Daily Tracking Website", description: "A handmade design for daily activity tracking and productivity.", link: "https://rathiselva29.github.io/DailyTracking/", image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop", category: "website", tags: ["HTML", "CSS"] },
+  { title: "VS Art Project Website", description: "An art showcase project highlighting creative visual designs and digital art stories.", link: "https://rathiselva29.github.io/ratthika_vs_art_project/", image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop", category: "website", tags: ["HTML", "CSS"] },
+  { title: "Habit Flow App", description: "A mobile-friendly habit tracking app designed for daily use. Build streaks, mark completions, and stay consistent with a clean, finger-friendly interface that works smoothly on any phone or tablet.", link: "https://rathiselva29.github.io/Habit-Tracking/", image: appHabitTracker, category: "application", tags: ["Mobile Friendly", "PWA", "Daily Use"] },
+  { title: "VS Art Project Banner", description: "A vibrant promotional banner crafted in Canva for the VS Art Project — bold typography meets playful illustration.", image: bannerVsArt, category: "design", tags: ["Banner", "Canva"] },
+  { title: "Portfolio Hero Banner", description: "A dark, futuristic banner designed for a developer portfolio with neon gradient typography.", image: bannerPortfolio, category: "design", tags: ["Banner", "Web"] },
+  { title: "Artika Creations Logo", description: "An elegant boutique-style logo for Artika Creations featuring a gold script monogram and a soft pastel palette.", image: logoArtika, category: "design", tags: ["Logo", "Branding"] },
+];
+
+const projectFilters: { id: "all" | ProjectCategory; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "website", label: "Websites" },
+  { id: "application", label: "Applications" },
+  { id: "design", label: "Banner & Logo" },
 ];
 
 const technicalSkills = [
@@ -53,6 +70,7 @@ const SkillBar = ({ name, level, delay }: { name: string; level: number; delay: 
 
 const Index = () => {
   const [titleIdx, setTitleIdx] = useState(0);
+  const [activeFilter, setActiveFilter] = useState<"all" | ProjectCategory>("all");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
@@ -119,15 +137,43 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">Projects</motion.h2>
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-muted-foreground text-center mb-12 max-w-xl mx-auto">A collection of projects that showcase my skills and passion for development.</motion.p>
-          <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((p, i) => (
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
+            {projectFilters.map((f) => {
+              const active = activeFilter === f.id;
+              return (
+                <motion.button
+                  key={f.id}
+                  onClick={() => setActiveFilter(f.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${active ? "bg-primary text-primary-foreground glow-primary" : "glass-card text-muted-foreground hover:text-foreground"}`}
+                >
+                  {f.label}
+                </motion.button>
+              );
+            })}
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.filter((p) => activeFilter === "all" || p.category === activeFilter).map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                 <TiltCard className="glass-card overflow-hidden group">
-                  <div className="relative overflow-hidden"><img src={p.image} alt={p.title} loading="lazy" className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" /><div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" /></div>
+                  <div className="relative overflow-hidden bg-muted/30 aspect-video flex items-center justify-center">
+                    <img src={p.image} alt={p.title} loading="lazy" className={`w-full h-full transition-transform duration-500 group-hover:scale-110 ${p.category === "design" || p.category === "application" ? "object-contain p-4" : "object-cover"}`} />
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur text-[10px] uppercase tracking-wider text-primary font-semibold border border-primary/30">{p.category === "design" ? "Design" : p.category === "application" ? "App" : "Website"}</div>
+                  </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-foreground mb-2">{p.title}</h3>
                     <p className="text-muted-foreground text-sm mb-4">{p.description}</p>
-                    <a href={p.link} target="_blank" rel="noopener noreferrer"><motion.button whileHover={{ scale: 1.05 }} className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-semibold"><ExternalLink size={14} /> View Live</motion.button></a>
+                    {p.tags && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {p.tags.map((t) => (<span key={t} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-mono-code">{t}</span>))}
+                      </div>
+                    )}
+                    {p.link ? (
+                      <a href={p.link} target="_blank" rel="noopener noreferrer"><motion.button whileHover={{ scale: 1.05 }} className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-semibold"><ExternalLink size={14} /> View Live</motion.button></a>
+                    ) : (
+                      <span className="inline-flex items-center gap-2 text-xs text-muted-foreground font-mono-code uppercase tracking-wider">Design Showcase</span>
+                    )}
                   </div>
                 </TiltCard>
               </motion.div>
